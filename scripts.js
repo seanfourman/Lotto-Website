@@ -11,6 +11,7 @@ const winConditions = [
   { strong: CONFIG.strong.limit, regular: 4, prize: 400 }
 ];
 
+// global variables (someone told me to never use var, we'll always use let or const)
 let wallet = INITIAL_WALLET;
 
 // initialize the UI
@@ -19,8 +20,8 @@ function initialLoad() {
     generateContainer(type, CONFIG[type].total, CONFIG[type].limit);
   }
   handleWalletUpdate(wallet);
-  bindGambleButton();
-  bindResetButton();
+  bindCheckButton();
+  bindFinishButton();
 }
 
 // generate container for each checkbox type with a for loop -> create a checkbox with the createCheckbox function and add a limit handler to each checkbox
@@ -75,16 +76,27 @@ function addCheckboxLimitHandler(container, checkboxWrapper, limit) {
 
 // update the wallet display
 function handleWalletUpdate(value) {
-  document.getElementById("wallet").textContent = `Wallet: $${value}`;
+  document.getElementById("wallet").textContent = `Points: ${value}`;
 }
 
-// gamble button logic
-function bindGambleButton() {
-  // (***) what's the point of the "?" operator here? it will never be null if not mistaken
-  document.getElementById("gamble")?.addEventListener("click", () => {
+// check button logic
+function bindCheckButton() {
+  document.getElementById("check")?.addEventListener("click", () => {
     // create two arrays with the selected numbers (with map), convert each checkbox text to a number with a lambda expression
     const selectedRegular = Array.from(document.querySelectorAll("#regular-container input:checked")).map((checkbox) => parseInt(checkbox.parentElement.textContent.trim()));
     const selectedStrong = Array.from(document.querySelectorAll("#strong-container input:checked")).map((checkbox) => parseInt(checkbox.parentElement.textContent.trim()));
+
+    // check if the user has enough points to continue playing
+    if (wallet < ROUND_COST) {
+      alert("Insufficient points to continue playing.");
+      return;
+    }
+
+    // check if the game is disabled -> if every checkbox is disabled, the game is disabled
+    if (Array.from(document.querySelectorAll("#regular-container input, #strong-container input")).every((checkbox) => checkbox.disabled)) {
+      alert("The game is currently disabled.");
+      return;
+    }
 
     // check if the user has selected the correct amount of numbers for each type
     if (selectedRegular.length !== CONFIG.regular.limit || selectedStrong.length !== CONFIG.strong.limit) {
@@ -93,11 +105,6 @@ function bindGambleButton() {
     }
 
     // deduct round cost from wallet
-    if (wallet < ROUND_COST) {
-      alert("Insufficient funds to gamble!");
-      return;
-    }
-
     wallet -= ROUND_COST;
 
     // simulate a random draw
@@ -115,35 +122,28 @@ function bindGambleButton() {
     // update wallet and show result
     if (winCondition) {
       wallet += winCondition.prize;
-      alert(`${drawnMessage}\nCongratulations! You won $${winCondition.prize}!`);
+      alert(`${drawnMessage}\nCongratulations! You won ${winCondition.prize} points!`);
     } else {
       alert(`${drawnMessage}\nSorry, no prize this time.`);
     }
 
-    // when wallet drops below 400, reset the game
-    if (wallet < 400) {
-      resetLotteryForm();
-      wallet = INITIAL_WALLET;
-      handleWalletUpdate(wallet);
-      alert("You don't have enough money to continue playing the game.\nGame reset! Wallet restored.");
-    }
-
     handleWalletUpdate(wallet);
     resetLotteryForm();
+
+    // check if the user has enough points to continue playing -> if not, disable the game
+    if (wallet < ROUND_COST) {
+      disableGame();
+      return;
+    }
   });
 }
 
-// reset button logic
-function bindResetButton() {
-  document.getElementById("reset")?.addEventListener("click", () => {
+// finish button logic
+function bindFinishButton() {
+  document.getElementById("finish")?.addEventListener("click", () => {
     // reset checkboxes
-    resetLotteryForm();
-
-    // reset wallet to initial amount and update
-    wallet = INITIAL_WALLET;
-    handleWalletUpdate(wallet);
-
-    alert("Game reset! Wallet restored.");
+    disableGame();
+    alert("Game has ended.\nYour final wallet balance is: " + wallet + " pts.");
   });
 }
 
@@ -159,6 +159,7 @@ function resetLotteryForm() {
 function randomNumbers(total, limit) {
   const numbers = [];
 
+  // generate random numbers until the limit is reached and check if the number is already in the array
   while (numbers.length < limit) {
     const randomNumber = Math.floor(Math.random() * total) + 1;
     if (!numbers.includes(randomNumber)) {
@@ -172,6 +173,14 @@ function randomNumbers(total, limit) {
 // utility function to count matching numbers, filter the drawn numbers with a lambda expression and check for the length of the filtered array
 function getMatchingNumbers(drawn, selected) {
   return drawn.filter((num) => selected.includes(num)).length;
+}
+
+// disable game for finish button
+function disableGame() {
+  document.querySelectorAll("#regular-container input, #strong-container input").forEach((checkbox) => {
+    checkbox.checked = false;
+    checkbox.disabled = true;
+  });
 }
 
 // initialize the application
