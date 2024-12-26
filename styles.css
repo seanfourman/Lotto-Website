@@ -1,7 +1,54 @@
+body {
+  color: #ffffff;
+  background-color: #1f2124;
+  font-family: "Inter", sans-serif;
+  margin: 0px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 100px;
+  align-items: center;
+  background-color: #25272b;
+}
+
+.navbar img {
+  width: 10%;
+  padding: 10px;
+}
+
+.navbar span {
+  background-color: #44b119;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.navbar #wallet {
+  font-weight: bold;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.buttons button {
+  background-color: #44b119;
+  font-weight: bold;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  margin: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .lottery-container {
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   width: 100%;
+  margin-top: 50px;
 }
 
 .lottery-container > * {
@@ -11,11 +58,11 @@
 }
 
 #regular-container {
-  width: 70%;
+  width: 40%;
 }
 
 #strong-container {
-  width: 30%;
+  width: 3%;
 }
 
 /* Checkbox design */
@@ -49,11 +96,11 @@
 }
 
 .container input:checked ~ .checkmark {
-  background-color: #2196f3;
+  background-color: #44b119;
 }
 
 .container input:disabled ~ .checkmark {
-  background-color: grey;
+  background-color: #555555;
 }
 
 .checkmark:after {

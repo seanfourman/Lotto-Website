@@ -6,19 +6,24 @@
     <title>Lottery</title>
     <link rel="stylesheet" href="./styles.css" />
     <script defer src="./scripts.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
   </head>
+
   <body>
-    <div id="lottery-form">
-      <div id="controls">
-        <span id="wallet"></span>
+    <div class="navbar">
+      <img src="./Images/Logo.png" alt="Lottery Logo" />
+      <span id="wallet"></span>
+    </div>
+
+    <div class="lottery-form">
+      <div class="lottery-container">
+        <div id="regular-container"></div>
+        <div id="strong-container"></div>
+      </div>
+
+      <div class="buttons">
         <button id="check">Check Raffle</button>
         <button id="finish">Finish Raffle</button>
-      </div>
-      <div class="lottery-container">
-        <h1>Regular</h1>
-        <div id="regular-container"></div>
-        <h1>Strong</h1>
-        <div id="strong-container"></div>
       </div>
     </div>
   </body>
