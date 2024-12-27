@@ -23,6 +23,7 @@ function initialLoad() {
   handleWalletUpdate(wallet);
   bindCheckButton();
   bindFinishButton();
+  updateRegularCounter();
 }
 
 // generate container for each checkbox type with a for loop -> create a checkbox with the createCheckbox function and add a limit handler to each checkbox
@@ -92,8 +93,8 @@ function bindCheckButton() {
     const selectedRegular = Array.from(document.querySelectorAll("#regular-container input:checked")).map((checkbox) => parseInt(checkbox.parentElement.textContent.trim()));
     const selectedStrong = Array.from(document.querySelectorAll("#strong-container input:checked")).map((checkbox) => parseInt(checkbox.parentElement.textContent.trim()));
 
-    // check if the user has enough points to continue playing
-    if (wallet < ROUND_COST) {
+    // check if the user has enough points to continue playing, if isFirstTime is true, use hasn't ended the game yet
+    if (wallet < ROUND_COST && isFirstTime) {
       alert("Insufficient points to continue playing.");
       return;
     }
@@ -214,7 +215,4 @@ function updateRegularCounter() {
 }
 
 // initialize the application
-document.addEventListener("DOMContentLoaded", () => {
-  initialLoad();
-  updateRegularCounter();
-});
+document.addEventListener("DOMContentLoaded", initialLoad);
