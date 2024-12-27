@@ -1,6 +1,5 @@
 body {
-  color: #ffffff;
-  background-color: #1f2124;
+  color: #000000;
   font-family: "Inter", sans-serif;
   margin: 0px;
 }
@@ -9,9 +8,9 @@ body {
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding: 0px 100px;
+  padding: 0px 75px;
   align-items: center;
-  background-color: #25272b;
+  background-color: #eeeeee;
 }
 
 .navbar img {
@@ -20,12 +19,13 @@ body {
 }
 
 .navbar span {
-  background-color: #44b119;
+  background-color: #ef4b25;
   padding: 10px;
   border-radius: 5px;
 }
 
 .navbar #wallet {
+  color: #ffffff;
   font-weight: bold;
 }
 
@@ -38,30 +38,64 @@ body {
 
 .lottery-container {
   display: flex;
+  flex-direction: row; /* row for regular and strong sections */
   justify-content: space-between;
-  padding: 50px 100px;
+  padding: 10px 50px;
 }
 
-.lottery-container > * {
+/* -> REGULAR, STRONG SECTIONS */
+.regular-section,
+.strong-section {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column; /* column for titles and circles */
+  width: 50%;
+}
+
+.regular-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0px;
+  padding: 0px 40px; /* padding to match the circles */
+}
+
+#regular-counter.completed {
+  color: #ef4b25;
+}
+
+.regular-section h1,
+.strong-section h1 {
+  text-align: left;
 }
 
 #regular-container {
-  width: 40%;
+  margin: 0px 40px;
+  padding-top: 20px;
+  display: flex;
+  flex-wrap: wrap; /* make circles go to the next line when div border is reached */
+  gap: 10px;
+  justify-content: center;
+  border-top: 3px solid #eeeeee;
 }
 
 #strong-container {
-  width: 5%;
+  display: flex;
+  flex-wrap: wrap; /* make circles go to the next line when div border is reached */
+  width: fit-content; /* stop the div when the content is finished so the background will look better */
+  justify-content: center;
+  gap: 15px;
+  background-color: #e4effe;
+  border-radius: 8px;
+  padding: 10px 30px;
+  margin: 0 auto; /* center the div relative to the main div */
 }
 
 /* --- LABEL CONTAINER --- */
 
 label.container {
   display: flex;
-  justify-content: center;
-  margin-bottom: 0px;
+  justify-content: center; /* x-axis center */
+  align-items: center; /* y-axis center */
 }
 
 label.container h1 {
@@ -77,11 +111,7 @@ label.container h1 {
 
 .container {
   position: relative;
-  margin-bottom: 15px;
   cursor: pointer;
-  user-select: none;
-  flex-basis: calc(100% / 7); /* Distribute evenly; adjust the divisor as needed */
-  text-align: center; /* Center text inside the circle */
 }
 
 .container input {
@@ -90,18 +120,22 @@ label.container h1 {
   cursor: pointer;
 }
 
-/* --- CIRCLES --- */
+/* -> CIRCLES */
 .circle {
-  height: 70px;
-  width: 70px;
-  background-color: #cccccc;
+  height: 50px;
+  width: 50px;
+  background-color: #f0f0f0;
   border-radius: 50%; /* make a circle */
   transition: background-color 0.2s ease;
 }
 
-/* -> CHOSEN CIRCLE BEHAVIOR */
+h1 {
+  font-size: 1.5rem;
+}
+
+/* -> REGULAR CIRCLES */
 .container input:checked ~ .circle {
-  background-color: #44b119;
+  background-color: #ef4b25;
 }
 
 .container input:checked ~ h1 {
@@ -110,17 +144,33 @@ label.container h1 {
 
 /* -> DISABLED CIRCLE BEHAVIOR */
 .container input:disabled ~ .circle {
-  background-color: #555555;
+  background-color: #aaaaaa;
 }
 
 .container input:disabled ~ h1 {
   color: #ffffff;
 }
 
+/* -> STRONG CIRCLES */
+.strong-section .circle {
+  background-color: #fefeff;
+}
+
+.strong-section .container input:checked ~ .circle {
+  background-color: #388cff;
+}
+
+.strong-section .container input:disabled ~ .circle {
+  background-color: #cccccc;
+}
+
 /* --- BUTTONS --- */
+.buttons button {
+  font-family: inherit;
+}
 
 .buttons button {
-  background-color: #44b119;
+  background-color: #ef4b25;
   font-weight: bold;
   color: #ffffff;
   border: none;
@@ -131,5 +181,5 @@ label.container h1 {
 }
 
 .buttons button:hover {
-  background-color: #3a9714;
+  background-color: #ef4b25;
 }

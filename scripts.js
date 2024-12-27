@@ -13,6 +13,7 @@ const winConditions = [
 
 // global variables (someone told me to never use var, we'll always use let or const)
 let wallet = INITIAL_WALLET;
+let isFirstTime = true;
 
 // initialize the UI
 function initialLoad() {
@@ -57,6 +58,11 @@ function addCheckboxLimitHandler(container, checkboxWrapper, limit) {
   checkbox.addEventListener("change", () => {
     const selectedCheckboxes = container.querySelectorAll("input:checked");
     const allCheckboxes = container.querySelectorAll("input");
+
+    // update the counter each time a checkbox is checked
+    if (container.id === "regular-container") {
+      updateRegularCounter();
+    }
 
     if (selectedCheckboxes.length >= limit) {
       // disable all unchecked checkboxes when reaching the limit
@@ -141,9 +147,14 @@ function bindCheckButton() {
 // finish button logic
 function bindFinishButton() {
   document.getElementById("finish")?.addEventListener("click", () => {
+    if (!isFirstTime && Array.from(document.querySelectorAll("#regular-container input, #strong-container input")).every((checkbox) => checkbox.disabled)) {
+      alert("The game is already disabled.");
+      return;
+    }
     // reset checkboxes
     disableGame();
     alert("Game has ended.\nYour final wallet balance is: " + wallet + " pts.");
+    isFirstTime = false; // for the first time, show the final wallet balance, after that, just show the alert that the game is already disabled
   });
 }
 
@@ -152,6 +163,7 @@ function resetLotteryForm() {
   document.querySelectorAll("#regular-container input, #strong-container input").forEach((checkbox) => {
     checkbox.checked = false;
     checkbox.disabled = false;
+    updateRegularCounter(); // update the counter after resetting
   });
 }
 
@@ -180,8 +192,29 @@ function disableGame() {
   document.querySelectorAll("#regular-container input, #strong-container input").forEach((checkbox) => {
     checkbox.checked = false;
     checkbox.disabled = true;
+    updateRegularCounter();
   });
 }
 
+// utility function to update the regular counter
+function updateRegularCounter() {
+  const selectedRegular = document.querySelectorAll("#regular-container input:checked").length;
+  const limit = CONFIG.regular.limit;
+  if (selectedRegular === limit) {
+    document.getElementById("regular-counter").classList.add("completed");
+  } else {
+    document.getElementById("regular-counter").classList.remove("completed");
+  }
+  document.getElementById("regular-counter").textContent = `${selectedRegular} of ${limit}`;
+
+  if (Array.from(document.querySelectorAll("#regular-container input, #strong-container input")).every((checkbox) => checkbox.disabled)) {
+    document.getElementById("regular-counter").textContent = `DONE`;
+    document.getElementById("regular-counter").classList.add("completed");
+  }
+}
+
 // initialize the application
-document.addEventListener("DOMContentLoaded", initialLoad);
+document.addEventListener("DOMContentLoaded", () => {
+  initialLoad();
+  updateRegularCounter();
+});

@@ -10,17 +10,31 @@
   </head>
 
   <body>
+    <!-- NAVBAR -->
     <div class="navbar">
       <img src="./Images/Logo.png" alt="Lottery Logo" />
       <span id="wallet"></span>
     </div>
 
+    <!-- LOTTERY FORM -->
     <div class="lottery-form">
+      <!-- MAIN 2 CONTAINERS -->
       <div class="lottery-container">
-        <div id="regular-container"></div>
-        <div id="strong-container"></div>
+        <div class="regular-section">
+          <div class="regular-header">
+            <h1>Numbers</h1>
+            <h1 id="regular-counter">0 of 6</h1>
+          </div>
+          <div id="regular-container"></div>
+        </div>
+
+        <div class="strong-section">
+          <h1>Strong Number</h1>
+          <div id="strong-container"></div>
+        </div>
       </div>
 
+      <!-- BUTTONS -->
       <div class="buttons">
         <button id="check">Check Raffle</button>
         <button id="finish">Finish Raffle</button>
