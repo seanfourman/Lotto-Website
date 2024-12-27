@@ -41,9 +41,9 @@ function createCheckbox(value) {
   const checkboxWrapper = document.createElement("label");
   checkboxWrapper.className = "container";
   checkboxWrapper.innerHTML = `
-          ${value}
           <input type="checkbox">
-          <span class="checkmark"></span>
+          <span class="circle"></span>
+          <h1>${value}</h1>
         `;
   return checkboxWrapper;
 }

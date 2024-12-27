@@ -5,6 +5,7 @@ body {
   margin: 0px;
 }
 
+/* --- NAVBAR --- */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -33,22 +34,12 @@ body {
   justify-content: center;
 }
 
-.buttons button {
-  background-color: #44b119;
-  font-weight: bold;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  margin: 30px;
-  border-radius: 5px;
-  cursor: pointer;
-}
+/* --- LOTTERY CONTAINER --- */
 
 .lottery-container {
   display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 50px;
+  justify-content: space-between;
+  padding: 50px 100px;
 }
 
 .lottery-container > * {
@@ -62,63 +53,83 @@ body {
 }
 
 #strong-container {
-  width: 3%;
+  width: 5%;
 }
 
-/* Checkbox design */
+/* --- LABEL CONTAINER --- */
+
+label.container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+
+label.container h1 {
+  color: #000000;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* --- CIRCLES CONTAINER --- */
+
 .container {
-  display: block;
   position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
   cursor: pointer;
-  font-size: 16px;
   user-select: none;
   flex-basis: calc(100% / 7); /* Distribute evenly; adjust the divisor as needed */
-  text-align: left; /* Align text consistently */
+  text-align: center; /* Center text inside the circle */
 }
 
 .container input {
   position: absolute;
-  opacity: 0;
+  opacity: 0; /* make tickbox invisible */
   cursor: pointer;
 }
 
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: #ccc;
-  border-radius: 4px;
-  transition: all 0.15s ease;
+/* --- CIRCLES --- */
+.circle {
+  height: 70px;
+  width: 70px;
+  background-color: #cccccc;
+  border-radius: 50%; /* make a circle */
+  transition: background-color 0.2s ease;
 }
 
-.container input:checked ~ .checkmark {
+/* -> CHOSEN CIRCLE BEHAVIOR */
+.container input:checked ~ .circle {
   background-color: #44b119;
 }
 
-.container input:disabled ~ .checkmark {
+.container input:checked ~ h1 {
+  color: #ffffff;
+}
+
+/* -> DISABLED CIRCLE BEHAVIOR */
+.container input:disabled ~ .circle {
   background-color: #555555;
 }
 
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
+.container input:disabled ~ h1 {
+  color: #ffffff;
 }
 
-.container input:checked ~ .checkmark:after {
-  display: block;
+/* --- BUTTONS --- */
+
+.buttons button {
+  background-color: #44b119;
+  font-weight: bold;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  margin: 30px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.container .checkmark:after {
-  left: 6px;
-  top: 1px;
-  width: 6px;
-  height: 12px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+.buttons button:hover {
+  background-color: #3a9714;
 }
