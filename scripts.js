@@ -93,7 +93,7 @@ function bindCheckButton() {
     const selectedRegular = Array.from(document.querySelectorAll("#regular-container input:checked")).map((checkbox) => parseInt(checkbox.parentElement.textContent.trim()));
     const selectedStrong = Array.from(document.querySelectorAll("#strong-container input:checked")).map((checkbox) => parseInt(checkbox.parentElement.textContent.trim()));
 
-    // check if the user has enough points to continue playing, if isFirstTime is true, use hasn't ended the game yet
+    // check if the user has enough points to continue playing, if isFirstTime is true, user hasn't ended the game yet
     if (wallet < ROUND_COST && isFirstTime) {
       alert("Insufficient points to continue playing.");
       return;
