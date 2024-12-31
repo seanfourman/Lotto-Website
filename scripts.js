@@ -124,14 +124,13 @@ function bindCheckButton() {
 
     // check if the user has won (use find to check each value in dictionary against the results we got from matchingRegular, matchingStrong)
     const winCondition = winConditions.find((condition) => condition.regular === matchingRegular && condition.strong === matchingStrong);
-    const drawnMessage = `Regular numbers: ${drawnRegular.join(", ")}, Strong number: ${drawnStrong[0]}`;
+
+    // display the results
+    displayResults(selectedRegular, selectedStrong, drawnRegular, drawnStrong, winCondition);
 
     // update wallet and show result
     if (winCondition) {
       wallet += winCondition.prize;
-      alert(`${drawnMessage}\nCongratulations! You won ${winCondition.prize} points!`);
-    } else {
-      alert(`${drawnMessage}\nSorry, no prize this time.`);
     }
 
     handleWalletUpdate(wallet);
@@ -156,6 +155,11 @@ function bindFinishButton() {
     disableGame();
     alert("Game has ended.\nYour final wallet balance is: " + wallet + " pts.");
     isFirstTime = false; // for the first time, show the final wallet balance, after that, just show the alert that the game is already disabled
+    // hide the result container when finishing the game
+    const resultContainer = document.getElementById("result-container");
+    if (resultContainer) {
+      resultContainer.style.display = "none";
+    }
   });
 }
 
@@ -212,6 +216,64 @@ function updateRegularCounter() {
     document.getElementById("regular-counter").textContent = `DONE`;
     document.getElementById("regular-counter").classList.add("completed");
   }
+}
+
+// display the results of the raffle, show the drawn numbers and the selected numbers by the user
+function displayResults(selectedRegular, selectedStrong, drawnRegular, drawnStrong, winCondition) {
+  let resultContainer = document.getElementById("result-container");
+
+  if (!resultContainer) {
+    resultContainer = document.createElement("div");
+    resultContainer.id = "result-container";
+    document.querySelector(".lottery-form").appendChild(resultContainer);
+  }
+
+  // clear previous results if there are any
+  resultContainer.innerHTML = "";
+
+  // append user input and system draws
+  appendResultSection(resultContainer, "Your Numbers", selectedRegular, drawnRegular);
+  appendResultSection(resultContainer, null, selectedStrong, drawnStrong);
+  appendResultSection(resultContainer, "Winning Numbers", drawnRegular, selectedRegular);
+  appendResultSection(resultContainer, null, drawnStrong, selectedStrong);
+
+  // feedback
+  const feedback = document.createElement("p");
+  feedback.textContent = winCondition ? `Congratulations! You won ${winCondition.prize} points!` : `Sorry, you didn't win this time. You lost ${ROUND_COST} points.`;
+  feedback.classList.add("feedback", winCondition ? "feedback-success" : "feedback-failure");
+  resultContainer.appendChild(feedback);
+}
+
+// utility function to append a result section
+function appendResultSection(container, title, numbers, correctNumbers) {
+  if (title) {
+    const sectionTitle = document.createElement("h2");
+    sectionTitle.textContent = title;
+    container.appendChild(sectionTitle);
+  }
+
+  createNumberCircles(container, numbers, correctNumbers);
+}
+
+// create the circles for the numbers, check if the number is correct and apply the correct color
+function createNumberCircles(container, numbers, correctNumbers = []) {
+  const circleContainer = document.createElement("div");
+  circleContainer.classList.add("result-numbers-container");
+
+  numbers.forEach((number) => {
+    const isCorrect = correctNumbers.includes(number); // check if the number is correct
+    const circle = document.createElement("label");
+    circle.className = "container";
+    circle.innerHTML = `
+          <input type="checkbox" disabled checked>
+          <span class="circle" 
+              style="background-color: ${isCorrect ? "#28a745" : "#dc3545"};"></span>
+          <h1>${number}</h1>
+      `;
+    circleContainer.appendChild(circle);
+  });
+
+  container.appendChild(circleContainer);
 }
 
 // initialize the application

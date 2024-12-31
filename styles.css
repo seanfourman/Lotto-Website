@@ -187,6 +187,38 @@ h1 {
   background-color: #ff7a5d;
 }
 
+/* --- RESULT CONTAINER --- */
+
+#result-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.result-numbers-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+#result-container .container {
+  cursor: default;
+}
+
+.feedback {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.feedback-success {
+  color: green;
+}
+
+.feedback-failure {
+  color: red;
+}
+
 /* --- MEDIA QUERIES --- */
 
 /* -> TABLET */
